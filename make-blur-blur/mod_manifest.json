@@ -1,0 +1,10 @@
+{
+    "id": "makeblurblur",
+    "name": "Make Blur Blur",
+    "author": "999dulgi",
+    "description": "Make blur blur",
+    "has_pck": false,
+    "has_dll": true,
+    "affects_gameplay": false,
+    "version": "1.0.0"
+}

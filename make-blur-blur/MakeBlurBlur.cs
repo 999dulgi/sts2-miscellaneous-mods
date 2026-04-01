@@ -77,12 +77,14 @@ public static class NCardHolder_SetCard_Patch
 		container.AddChild(viewport);
 		node.Reparent(viewport, false);
 
+		const float padding = 40f;
 		void SyncSize()
 		{
-			viewport.Size = new Vector2I((int)hitbox.Size.X, (int)hitbox.Size.Y);
-			container.Size = hitbox.Size;
-			container.Position = hitbox.Position;
-			viewport.CanvasTransform = new Transform2D(0, hitbox.Size / 2f);
+			var padded = hitbox.Size + Vector2.One * padding * 2f;
+			viewport.Size = new Vector2I((int)padded.X, (int)padded.Y);
+			container.Size = padded;
+			container.Position = hitbox.Position - Vector2.One * padding;
+			viewport.CanvasTransform = new Transform2D(0, padded / 2f);
 		}
 		Callable.From(SyncSize).CallDeferred();
 		hitbox.Resized += SyncSize;

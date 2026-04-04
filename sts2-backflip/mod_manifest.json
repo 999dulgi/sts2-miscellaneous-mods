@@ -1,0 +1,10 @@
+{
+  "id": "sts2-backflip",
+  "name": "Backflip",
+  "author": "999dulgi",
+  "description": "You can backflip with backflip cards",
+  "version": "1.0.0",
+  "has_pck": false,
+  "has_dll": true,
+  "affects_gameplay": false
+}

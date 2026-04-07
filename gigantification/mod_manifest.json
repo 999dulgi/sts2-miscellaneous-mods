@@ -1,0 +1,10 @@
+{
+    "id": "gigantification",
+    "name": "Giantification",
+    "author": "999dulgi",
+    "description": "When you use giant potion, you will grow",
+    "has_pck": false,
+    "has_dll": true,
+    "affects_gameplay": false,
+    "version": "1.0.0"
+}

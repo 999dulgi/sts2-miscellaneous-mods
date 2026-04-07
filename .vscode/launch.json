@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to Slay the Spire 2",
+            "type": "coreclr",
+            "request": "attach",
+            "processName": "SlayTheSpire2.exe"
+        },
+        {
+            "name": "Build & Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processName": "SlayTheSpire2.exe",
+            "preLaunchTask": "Build Gigantification"
+        }
+    ]
+}

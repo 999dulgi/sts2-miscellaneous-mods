@@ -1,6 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 .claude/
+.vs/
 *.import
 /android/
 

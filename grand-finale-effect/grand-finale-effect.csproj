@@ -1,0 +1,70 @@
+<Project Sdk="Godot.NET.Sdk/4.5.1">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>grandfinaleeffect</RootNamespace>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- 게임 설치 경로 -->
+    <GameDir>C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2\data_sts2_windows_x86_64</GameDir>
+
+    <!-- 빌드 후 모드 DLL 복사 경로 -->
+    <ModOutputDir>C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2\mods\grand-finale-effect</ModOutputDir>
+  </PropertyGroup>
+
+  <!-- MegaDot 실행 파일 경로 (dotnet publish 시 PCK 자동 빌드에 사용) -->
+  <PropertyGroup>
+    <GodotPath>C:\megadot\MegaDot_v4.5.1-stable_mono_win64.exe</GodotPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 게임 어셈블리 참조 (빌드에만 사용, 출력에 포함 안 함) -->
+    <Reference Include="sts2">
+      <HintPath>$(GameDir)\sts2.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(GameDir)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GodotSharp">
+      <HintPath>$(GameDir)\GodotSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Build / Publish 공통: DLL + manifest + tscn을 모드 폴더로 복사 -->
+  <Target Name="CopyToMods" AfterTargets="Build;Publish"
+          Condition="'$(IsInnerGodotExport)' != 'true'">
+    <MakeDir Directories="$(ModOutputDir)" />
+    <MakeDir Directories="$(ModOutputDir)\grand-finale-effect" />
+    <Copy SourceFiles="$(TargetPath)"
+          DestinationFolder="$(ModOutputDir)"
+          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\manifest.json"
+          DestinationFolder="$(ModOutputDir)"
+          SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <TscnFiles Include="$(MSBuildProjectDirectory)\grand-finale-effect\*.tscn" />
+    </ItemGroup>
+    <Copy SourceFiles="@(TscnFiles)"
+          DestinationFolder="$(ModOutputDir)\grand-finale-effect"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+  <!-- Publish 전용: GodotPath가 설정된 경우 PCK 빌드 후 모드 폴더로 복사 -->
+  <Target Name="GodotPublish" AfterTargets="Publish"
+          DependsOnTargets="CopyToMods"
+          Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
+    <MakeDir Directories="$(MSBuildProjectDirectory)\build" />
+    <Message Text="Exporting Godot .pck ..." Importance="high" />
+    <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(MSBuildProjectDirectory)/build/grand-finale-effect.pck&quot;"
+          EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1"
+          ContinueOnError="WarnAndContinue" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\build\grand-finale-effect.pck"
+          DestinationFolder="$(ModOutputDir)"
+          SkipUnchangedFiles="false" />
+  </Target>
+
+</Project>

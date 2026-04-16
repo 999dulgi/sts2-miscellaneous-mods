@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq0op2ocheuk6"]
+
+[ext_resource type="Texture2D" uid="uid://dgvqetlp1lskr" path="res://grand-finale-effect/images/petal_sheet.png" id="1"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_1"]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Gradient" id="Gradient_alpha"]
+offsets = PackedFloat32Array(0, 0.1, 0.85, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_alpha"]
+gradient = SubResource("Gradient_alpha")
+
+[sub_resource type="ParticleProcessMaterial" id="PPMat_petals"]
+emission_shape = 3
+emission_box_extents = Vector3(1360, 20, 0)
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 80.0
+initial_velocity_max = 220.0
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+gravity = Vector3(60, 180, 0)
+scale_min = 0.4
+scale_max = 0.9
+color_ramp = SubResource("GradientTexture1D_alpha")
+anim_speed_min = 2.28
+anim_speed_max = 4.43
+anim_offset_max = 1.0
+turbulence_enabled = true
+turbulence_noise_strength = 2.0
+turbulence_noise_scale = 0.4
+turbulence_noise_speed_random = 0.5
+
+[node name="Node2D" type="Node2D"]
+
+[node name="PetalParticles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_1")
+position = Vector2(1280, -20)
+amount = 100
+texture = ExtResource("1")
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 0.5
+fixed_fps = 0
+process_material = SubResource("PPMat_petals")

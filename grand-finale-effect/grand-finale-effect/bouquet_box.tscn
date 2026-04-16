@@ -1,0 +1,6 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="BouquetBox" type="Node2D"]
+
+[node name="Visual" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)

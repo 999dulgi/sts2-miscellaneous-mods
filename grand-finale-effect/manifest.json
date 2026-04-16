@@ -1,0 +1,10 @@
+{
+  "id": "grand-finale-effect",
+  "name": "Grand Finale Effect",
+  "author": "999dulgi",
+  "description": "Add effect when using grand finale",
+  "version": "1.0.0",
+  "has_pck": true,
+  "has_dll": true,
+  "affects_gameplay": false
+}

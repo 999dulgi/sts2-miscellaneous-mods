@@ -36,7 +36,7 @@ public static class BackflipInjection
 		{
 			NCreatureVisuals playerImage = playerNode.Visuals;
 
-			Node2D body = playerImage.Body;
+			Node2D body = playerNode.Body;
 			Vector2 pivot = playerImage.VfxSpawnPosition.Position;
 			Vector2 offset = body.Position - pivot;
 

@@ -22,9 +22,12 @@ public static class ModStart
 public static class BackflipInjection
 {
 	private static Tween? _tween;
+	private static Vector2 _restOffset;
 
 	public static void Postfix(Backflip __instance)
 	{
+		if (!LocalContext.IsMe(__instance.Owner))
+			return;
 		onBackFlip();
 	}
 
@@ -38,9 +41,15 @@ public static class BackflipInjection
 
 			Node2D body = playerNode.Body;
 			Vector2 pivot = playerImage.VfxSpawnPosition.Position;
-			Vector2 offset = body.Position - pivot;
+
+			if (_tween == null || !_tween.IsRunning())
+				_restOffset = body.Position - pivot;
+
+			Vector2 offset = _restOffset;
 
 			_tween?.Kill();
+			body.Position = pivot + offset;
+			body.Rotation = 0f;
 			_tween = body.CreateTween();
 			float jumpHeight = 200f;
 			_tween.TweenMethod(Callable.From((float angle) =>

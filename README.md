@@ -10,6 +10,7 @@ A Collection of Totally Useless Slay the Spire 2 Mods
 | [Make Blur Blur](make-blur-blur/) | Make Blur blur |
 | [Backflip](sts2-backflip/) | Backflip with Backflip cards |
 | [Grand Finale Effect](grand-finale-effect/) | Add effect when use grand finale |
+| [Ragdoll](ragdoll/) | Enemies explode into flying parts when they die |
 
 ## Build
 

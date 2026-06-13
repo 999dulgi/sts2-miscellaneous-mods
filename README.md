@@ -8,7 +8,7 @@ A Collection of Totally Useless Slay the Spire 2 Mods
 |-----|-------------|
 | [Giantification](gigantification/) | When you have the Gigantification power, your character visually grows |
 | [Make Blur Blur](make-blur-blur/) | Make Blur blur |
-| [Backflip](sts2-backflip/) | Backflip with Backflip cards |
+| [Backflip](sts2-backflip/) | Flip animations for Backflip, Acrobatics, and Dodge and Roll cards |
 | [Grand Finale Effect](grand-finale-effect/) | Add effect when use grand finale |
 | [Ragdoll](ragdoll/) | Enemies explode into flying parts when they die |
 

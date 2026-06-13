@@ -2,7 +2,11 @@
 
 ![mod_manifest](mod_manifest.webp)
 
-Backflip with Backflip cards!
+Adds flip animations when playing certain cards!
+
+- **Backflip** — backflip (rotates backward with an arc)
+- **Acrobatics** — frontflip (rotates forward with an arc)
+- **Dodge and Roll** — forward spin in place (no arc)
 
 ## Build
 

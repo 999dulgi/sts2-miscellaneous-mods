@@ -1,9 +1,9 @@
 {
   "id": "sts2-backflip",
-  "name": "Backflip",
+  "name": "Do a barrel roll",
   "author": "999dulgi",
-  "description": "You can backflip with backflip cards",
-  "version": "1.0.3",
+  "description": "You can roll with using cards",
+  "version": "1.0.4",
   "has_pck": false,
   "has_dll": true,
   "affects_gameplay": false

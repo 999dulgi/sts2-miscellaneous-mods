@@ -4,5 +4,5 @@
 .vs/
 *.import
 /android/
-
+.omc/
 *.uid

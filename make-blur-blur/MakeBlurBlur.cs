@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
@@ -52,6 +53,38 @@ public static class BlurShader
 	};
 }
 
+public static class BlurOverlay
+{
+	private static readonly Vector2 CardSize = new(346f, 466f);
+	private static readonly HashSet<ulong> _tracked = new();
+
+	public static bool Has(CanvasItem card) => _tracked.Contains(card.GetInstanceId());
+
+	public static void Attach(CanvasItem card)
+	{
+		var backBuffer = new BackBufferCopy() { CopyMode = BackBufferCopy.CopyModeEnum.Viewport };
+		var overlay = new ColorRect()
+		{
+			MouseFilter = Control.MouseFilterEnum.Ignore,
+			Material = BlurShader.Material,
+			Position = -CardSize / 2f,
+			Size = CardSize,
+		};
+		card.AddChild(backBuffer);
+		card.AddChild(overlay);
+		_tracked.Add(card.GetInstanceId());
+	}
+
+	public static void SetVisible(CanvasItem card, bool visible)
+	{
+		foreach (var child in card.GetChildren())
+		{
+			if (child is BackBufferCopy b) b.Visible = visible;
+			else if (child is ColorRect r && r.Material == BlurShader.Material) r.Visible = visible;
+		}
+	}
+}
+
 [HarmonyPatch(
 	"MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder",
 	"SetCard")]
@@ -60,24 +93,29 @@ public static class NCardHolder_SetCard_Patch
 	public static void Postfix(object __instance, CanvasItem node)
 	{
 		var model = node.GetType().GetProperty("Model")?.GetValue(node);
-		if (model?.GetType().Name != "Blur") return;
+		bool isBlur = model?.GetType().Name == "Blur";
+		if (isBlur && !BlurOverlay.Has(node))
+			BlurOverlay.Attach(node);
+		else if (!isBlur && BlurOverlay.Has(node))
+			BlurOverlay.SetVisible(node, false);
+	}
+}
 
-		var cardSize = new Vector2(346f, 466f);
+[HarmonyPatch(
+	"MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder",
+	"ReassignToCard")]
+public static class NCardHolder_ReassignToCard_Patch
+{
+	public static void Postfix(object __instance)
+	{
+		if (__instance.GetType().GetProperty("CardNode")?.GetValue(__instance) is not CanvasItem cardNode) return;
 
-		var backBuffer = new BackBufferCopy()
-		{
-			CopyMode = BackBufferCopy.CopyModeEnum.Viewport,
-		};
+		var model = cardNode.GetType().GetProperty("Model")?.GetValue(cardNode);
+		bool isBlur = model?.GetType().Name == "Blur";
 
-		var overlay = new ColorRect()
-		{
-			MouseFilter = Control.MouseFilterEnum.Ignore,
-			Material = BlurShader.Material,
-			Position = -cardSize / 2f,
-			Size = cardSize,
-		};
-
-		node.AddChild(backBuffer);
-		node.AddChild(overlay);
+		if (isBlur && !BlurOverlay.Has(cardNode))
+			BlurOverlay.Attach(cardNode);
+		else
+			BlurOverlay.SetVisible(cardNode, isBlur);
 	}
 }
